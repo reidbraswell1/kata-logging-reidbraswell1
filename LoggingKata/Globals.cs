@@ -8,5 +8,7 @@ namespace LoggingKata
         public const string logMessageReadingFileFrom = "Reading csv file ";
         public const string logMessageNoLines = "Error no lines read from file ";
         public const string logMessageOneLine = "Warning only one line read from file ";
+        public const string logMessageUnableToParseLine = "Unable to parse line - ";
+        public const string logMessageLength = "length < 3 Line=";
     }
 }
