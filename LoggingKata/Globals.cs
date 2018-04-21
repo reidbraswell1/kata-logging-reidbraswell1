@@ -4,6 +4,7 @@ namespace LoggingKata
     {
         public const string longitude = "longitude";
         public const string latitude = "latitude";
+        public const string logMessageBeginParsing = "Begin Parsing";
         public const string logMessageInitialized = "Log initialized";
         public const string logMessageReadingFileFrom = "Reading csv file ";
         public const string logMessageNoLines = "Error no lines read from file ";
