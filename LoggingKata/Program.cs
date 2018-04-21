@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Device.Location;
+using GeoCoordinatePortable;
 using System.Linq;
 using System.IO;
 
@@ -33,6 +33,12 @@ namespace LoggingKata
 
             var parser = new TacoParser();
             var locations = lines.Select(line => parser.Parse(line));
+
+        // GEOLOCATION CODE SAMPLE 
+            GeoCoordinate pin1 = new GeoCoordinate(-85, 34);
+            GeoCoordinate pin2 = new GeoCoordinate(-83, 34);
+            double distanceBetween = pin1.GetDistanceTo(pin2);
+
 
             var longitude = 0.0;
             var latitude = 0.0;
