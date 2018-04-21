@@ -25,6 +25,14 @@ namespace LoggingKata
                 longitude = double.Parse(cells[0]);
                 latitude = double.Parse(cells[1]);
                 name = cells[2];
+                if (longitude > Globals.maxLongitude || longitude < Globals.minLongitude)
+                {
+                    throw new ArgumentOutOfRangeException(Globals.argumentExceptionLongitude);
+                }
+                if (latitude > Globals.maxLatitude || latitude < Globals.minLatitude)
+                {
+                    throw new ArgumentOutOfRangeException(Globals.argumentExceptionLatitude);
+                }
             }
             catch (Exception e)
             {
