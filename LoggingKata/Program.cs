@@ -1,5 +1,6 @@
 ﻿using System;
 using GeoCoordinatePortable;
+using Geolocation;
 using System.Linq;
 using System.IO;
 
@@ -10,44 +11,66 @@ namespace LoggingKata
         //Why do you think we use ILog?
         static readonly ILog logger = new TacoLogger();
         const string csvPath = "TacoBell-US-AL.csv";
-        static readonly string path = Environment.CurrentDirectory + csvPath;
+        static readonly string filePath = Environment.CurrentDirectory + "/" + csvPath;
 
         static void Main(string[] args)
         {
             logger.LogInfo(Globals.logMessageInitialized);
-            logger.LogInfo(Globals.logMessageReadingFileFrom + path);
+            logger.LogInfo(Globals.logMessageReadingFileFrom + filePath);
 
-            var lines = File.ReadAllLines(Environment.CurrentDirectory + csvPath);
+            var lines = File.ReadAllLines(filePath);
 
             // Log Error if no lines read
             if (lines.Length == 0)
             {
-                logger.LogError(Globals.logMessageNoLines + path);
+                logger.LogError(Globals.logMessageNoLines + filePath);
                 return;
             }
             // Log Warning if only 1 line
             if (lines.Length == 1)
             {
-                logger.LogWarning(Globals.logMessageOneLine + path);
+                logger.LogWarning(Globals.logMessageOneLine + filePath);
             }
 
             var parser = new TacoParser();
             var locations = lines.Select(line => parser.Parse(line));
 
-        // GEOLOCATION CODE SAMPLE 
-            GeoCoordinate pin1 = new GeoCoordinate(-85, 34);
-            GeoCoordinate pin2 = new GeoCoordinate(-83, 34);
-            double distanceBetween = pin1.GetDistanceTo(pin2);
+            // GEOLOCATION CODE SAMPLE
+            Coordinate point1A = new Coordinate();
+            Coordinate point1B = new Coordinate();
+            point1A.Latitude =  32.00;
+            point1B.Longitude = -85.00;
+            double dis1 = GeoCalculator.GetDistance(point1A,point1B,1);
+            // GEOLOCATION PORTABLE CODE SAMPLE
+            GeoCoordinate point2A = new GeoCoordinate(33.00,-86.00);
+            GeoCoordinate point2B = new GeoCoordinate(34.00,-84.00);
+            double dis2 = point2A.GetDistanceTo(point2B);
 
 
-            var longitude = 0.0;
-            var latitude = 0.0;
-            foreach (var location in locations)
+            ITrackable locAMax = null;
+            ITrackable locBMax = null;
+            var distanceBetween = 0.0;
+            var distanceBetweenMax = 0.0;
+            foreach (var locA in locations)
             {
-                longitude = location.Location.Longitude;
+                var origin = new Coordinate();
+                origin.Latitude = locA.Location.Latitude;
+                origin.Longitude = locA.Location.Longitude;
+                foreach (var locB in locations)
+                {
+                    var destination = new Coordinate();
+                    origin.Latitude = locB.Location.Latitude;
+                    origin.Longitude = locB.Location.Longitude;
+                    distanceBetween = GeoCalculator.GetDistance(origin, destination, 1);
+                    if (distanceBetween > distanceBetweenMax)
+                    {
+                        distanceBetweenMax = distanceBetween;
+                        locAMax = locA;
+                        locBMax = locB;
+                    }
+                }
             }
-            // TODO:  Find the two TacoBells in Alabama that are the furthurest from one another.
-            // HINT:  You'll need two nested forloops
+            logger.LogInfo("Max Distance Between Taco Bells is " + distanceBetweenMax.ToString() + " Occurring between " + locAMax.Name + " and " + locBMax.Name);
         }
     }
 }
