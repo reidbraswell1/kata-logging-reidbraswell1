@@ -11,6 +11,10 @@ namespace LoggingKata
         public ITrackable Parse(string line)
         {
             logger.LogDebug(Globals.logMessageBeginParsing + line);
+            if(line == null)
+            {
+                return null;
+            }
             var cells = line.Split(Globals.splitChar);
             if (cells.Length < 3)
             {
