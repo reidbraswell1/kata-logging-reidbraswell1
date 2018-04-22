@@ -15,6 +15,7 @@ namespace LoggingKata
 
         static void Main(string[] args)
         {
+            logger.SetLogLevel(TacoLogger.info);
             logger.LogInfo(Globals.logMessageInitialized);
             logger.LogInfo(Globals.logMessageReadingFileFrom + filePath);
 
@@ -73,7 +74,7 @@ namespace LoggingKata
                     }
                 }
             }
-            logger.LogInfo("Max Distance Between Taco Bells is " + distanceBetweenMax.ToString() + " Occurring between " + locAMax.Name + " and " + locBMax.Name);
+            logger.LogInfo("Max Distance Between Taco Bells is " + distanceBetweenMax.ToString() + " Occurring between " + locAMax.Name.Substring(0, locAMax.Name.IndexOf("(")) + " and " + locBMax.Name.Substring(0, locBMax.Name.IndexOf("(")));
         }
     }
 }
