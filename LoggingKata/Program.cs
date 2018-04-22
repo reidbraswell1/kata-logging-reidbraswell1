@@ -18,9 +18,16 @@ namespace LoggingKata
             logger.SetLogLevel(TacoLogger.info);
             logger.LogInfo(Globals.logMessageInitialized);
             logger.LogInfo(Globals.logMessageReadingFileFrom + filePath);
-
-            var lines = File.ReadAllLines(filePath);
-
+            string[] lines = null;
+            try
+            {
+                lines = File.ReadAllLines(filePath);
+            }
+            catch (Exception ex)
+            {
+                logger.LogFatal("Exception occurred reading file",ex);
+                return;
+            }
             // Log Error if no lines read
             if (lines.Length == 0)
             {
