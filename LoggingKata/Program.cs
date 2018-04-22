@@ -38,13 +38,16 @@ namespace LoggingKata
             // GEOLOCATION CODE SAMPLE
             Coordinate point1A = new Coordinate();
             Coordinate point1B = new Coordinate();
-            point1A.Latitude =  32.00;
-            point1B.Longitude = -85.00;
-            double dis1 = GeoCalculator.GetDistance(point1A,point1B,1);
+            point1A.Latitude = 32.00;
+            point1A.Longitude = -85.00;
+            point1B.Latitude = 32.50;
+            point1B.Longitude = -85.50;
+            double dis1 = GeoCalculator.GetDistance(point1A, point1B, 1);
             // GEOLOCATION PORTABLE CODE SAMPLE
-            GeoCoordinate point2A = new GeoCoordinate(33.00,-86.00);
-            GeoCoordinate point2B = new GeoCoordinate(34.00,-84.00);
-            double dis2 = point2A.GetDistanceTo(point2B);
+            GeoCoordinate point2A = new GeoCoordinate(32.00, -85.00);
+            GeoCoordinate point2B = new GeoCoordinate(32.50, -85.50);
+            // In METERS
+            double dis2 = point2A.GetDistanceTo(point2B) * 0.00062137;
 
 
             ITrackable locAMax = null;
