@@ -18,10 +18,9 @@ namespace LoggingKata
             logger.SetLogLevel(TacoLogger.info);
             logger.LogInfo(Globals.logMessageInitialized);
             logger.LogInfo(Globals.logMessageReadingFileFrom + filePath);
-            string[] lines = null;
             try
             {
-                lines = File.ReadAllLines(filePath);
+                var lines = File.ReadAllLines(filePath);
                 // Log Error if no lines read
                 if (lines.Length == 0)
                 {
@@ -34,7 +33,6 @@ namespace LoggingKata
                     logger.LogWarning(Globals.logMessageOneLine + filePath);
                 }
                 findFurtherestTacoBells(lines);
-
             }
             catch (Exception ex)
             {
@@ -53,14 +51,18 @@ namespace LoggingKata
             var distanceBetweenMax = 0.0;
             foreach (var locA in locations)
             {
-                var origin = new Coordinate();
-                origin.Latitude = locA.Location.Latitude;
-                origin.Longitude = locA.Location.Longitude;
+                var origin = new Coordinate()
+                {
+                    Latitude = locA.Location.Latitude,
+                    Longitude = locA.Location.Longitude
+                };
                 foreach (var locB in locations)
                 {
-                    var destination = new Coordinate();
-                    origin.Latitude = locB.Location.Latitude;
-                    origin.Longitude = locB.Location.Longitude;
+                    var destination = new Coordinate()
+                    {
+                        Latitude = locB.Location.Latitude,
+                        Longitude = locB.Location.Longitude
+                    };
                     distanceBetween = GeoCalculator.GetDistance(origin, destination, 1);
                     if (distanceBetween > distanceBetweenMax)
                     {
@@ -71,6 +73,8 @@ namespace LoggingKata
                 }
             }
             logger.LogInfo("Max Distance Between Taco Bells is " + distanceBetweenMax.ToString() + " Occurring between " + locAMax.Name.Substring(0, locAMax.Name.IndexOf("(")) + " and " + locBMax.Name.Substring(0, locBMax.Name.IndexOf("(")));
+            Console.WriteLine(GeoLocationCodeTest.geoLocation());
+            Console.WriteLine(GeoLocationCodeTest.geoCoordinatePortable());
         }
     }
 }
