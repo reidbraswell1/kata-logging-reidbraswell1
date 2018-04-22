@@ -44,7 +44,6 @@ namespace LoggingKata
         }
         private static void findFurtherestTacoBells(string[] lines)
         {
-
             var parser = new TacoParser();
             var locations = lines.Select(line => parser.Parse(line));
 
