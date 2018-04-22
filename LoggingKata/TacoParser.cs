@@ -10,11 +10,11 @@ namespace LoggingKata
 
         public ITrackable Parse(string line)
         {
-            logger.LogInfo(Globals.logMessageBeginParsing);
-            var cells = line.Split(',');
+            logger.LogInfo(Globals.logMessageBeginParsing + line);
+            var cells = line.Split(Globals.splitChar);
             if (cells.Length < 3)
             {
-                logger.LogError(Globals.logMessageUnableToParseLine + Globals.logMessageLength + line);
+                logger.LogError(Globals.logMessageUnableToParseLine + Globals.logMessageLength + line, new Exception ("Line too short"));
                 return null;
             }
             var longitude = 0.0;
@@ -36,7 +36,7 @@ namespace LoggingKata
             }
             catch (Exception e)
             {
-                logger.LogError(Globals.logMessageUnableToParseLine + e.Message + line);
+                logger.LogError(Globals.logMessageUnableToParseLine + e.Message + line,e);
                 return null;
             }
             var tacoBell = new TacoBell();
