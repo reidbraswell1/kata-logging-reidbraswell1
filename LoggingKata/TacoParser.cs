@@ -44,7 +44,7 @@ namespace LoggingKata
             point.Longitude = longitude;
             point.Latitude = latitude;
             tacoBell.Location = point;
-            tacoBell.Name = name;
+            tacoBell.Name = name.Replace("\"","");
             return tacoBell;
         }
     }
