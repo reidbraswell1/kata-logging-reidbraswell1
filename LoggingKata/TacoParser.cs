@@ -11,7 +11,7 @@ namespace LoggingKata
         public ITrackable Parse(string line)
         {
             logger.LogDebug(Globals.logMessageBeginParsing + line);
-            if(line == null)
+            if(string.IsNullOrEmpty(line))
             {
                 return null;
             }
