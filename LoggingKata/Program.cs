@@ -8,7 +8,6 @@ namespace LoggingKata
 {
     class Program
     {
-        //Why do you think we use ILog?
         static readonly ILog logger = new TacoLogger();
         const string csvPath = "TacoBell-US-AL.csv";
         static readonly string filePath = Environment.CurrentDirectory + "/" + csvPath;
