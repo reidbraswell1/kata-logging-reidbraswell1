@@ -6,6 +6,8 @@ namespace LoggingKata.Test
     public class TacoParserTests
     {
         private readonly TacoParser _tacoParser;
+
+        // Constructor
         public TacoParserTests()
         {
             _tacoParser = new TacoParser();
@@ -17,30 +19,19 @@ namespace LoggingKata.Test
         }
 
         [Theory]
-        [InlineData("-85.23,33.01,Taco Bell Birmingham")]
-        public void ShouldParse1(string str)
+        [InlineData("-180.00,-90.00,Taco Bell Birmingham")]
+        [InlineData("180.00,90.00,Taco Bell Birmingham")]
+        public void ShouldParse(string str)
         {
             var result = _tacoParser.Parse(str);
 
             Assert.Equal("Taco Bell Birmingham", result.Name);
             var longitude = result.Location.Longitude;
             var latitude = result.Location.Latitude;
-            Assert.Equal(-85.23, longitude);
-            Assert.Equal(33.01, latitude);
+            Assert.InRange(longitude, -180, 180);
+            Assert.InRange(latitude, -90, 90);
         }
 
-        [Theory]
-        [InlineData("1,2,Taco Bell Birmingham")]
-        public void ShouldParse2(string str)
-        {
-            var result = _tacoParser.Parse(str);
-
-            Assert.Equal("Taco Bell Birmingham", result.Name);
-            var longitude = result.Location.Longitude;
-            var latitude = result.Location.Latitude;
-            Assert.Equal(1, longitude);
-            Assert.Equal(2, latitude);
-        }
 
         [Theory]
         [InlineData(null)]
@@ -49,13 +40,15 @@ namespace LoggingKata.Test
         [InlineData("1,2")]
         [InlineData(",,")]
         [InlineData(",,,")]
+        [InlineData(",,,,")]
         [InlineData("A,B")]
         [InlineData("A,B,C")]
+        [InlineData("-180.01,-90.01,C")]
+        [InlineData("180.01,90.01,C")]
         public void ShouldFailParse(string str)
         {
             var result = _tacoParser.Parse(str);
-            Assert.Equal(null,result);
-            // TODO: Complete Should Fail Parse
+            Assert.Null(result);
         }
     }
 }
