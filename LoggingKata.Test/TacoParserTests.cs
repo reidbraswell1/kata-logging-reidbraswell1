@@ -12,20 +12,24 @@ namespace LoggingKata.Test
         {
             _tacoParser = new TacoParser();
         }
-        [Fact]
-        public void ShouldDoSomething()
+        [Theory]
+        [InlineData("84.677017, 34.073638,\"Taco Bell Acwort... (Free trial * Add to Cart for a full POI info)")]
+        [InlineData("84.677017, 34.073638")]
+        public void ShouldDoSomething(string str)
         {
-            // TODO: Complete Something, if anything
+            var result = _tacoParser.Parse(str);
+            Assert.NotNull(result);
         }
 
         [Theory]
         [InlineData("-180.00,-90.00,Taco Bell Birmingham")]
         [InlineData("180.00,90.00,Taco Bell Birmingham")]
+        [InlineData("180.00,90.00")]
+        [InlineData("-180.00,-90.00")]
         public void ShouldParse(string str)
         {
             var result = _tacoParser.Parse(str);
-
-            Assert.Equal("Taco Bell Birmingham", result.Name);
+            Assert.True(result.Name.Equals("Taco Bell Birmingham") || result.Name.Equals("null"));
             var longitude = result.Location.Longitude;
             var latitude = result.Location.Latitude;
             Assert.InRange(longitude, -180, 180);
@@ -37,7 +41,6 @@ namespace LoggingKata.Test
         [InlineData(null)]
         [InlineData("")]
         [InlineData("1")]
-        [InlineData("1,2")]
         [InlineData(",,")]
         [InlineData(",,,")]
         [InlineData(",,,,")]
