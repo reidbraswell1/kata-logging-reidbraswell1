@@ -51,19 +51,20 @@ namespace LoggingKata
             var distanceBetweenMax = 0.0;
             foreach (var locA in locations)
             {
-                var origin = new Coordinate()
+                var origin = new GeoCoordinate()
                 {
                     Latitude = locA.Location.Latitude,
                     Longitude = locA.Location.Longitude
                 };
                 foreach (var locB in locations)
                 {
-                    var destination = new Coordinate()
+                    var destination = new GeoCoordinate()
                     {
                         Latitude = locB.Location.Latitude,
                         Longitude = locB.Location.Longitude
                     };
-                    distanceBetween = GeoCalculator.GetDistance(origin, destination, 1);
+                    //distanceBetween = GeoCalculator.GetDistance(origin, destination, 1);
+                    distanceBetween = origin.GetDistanceTo(destination) * Globals.milesPerMeter;
                     if (distanceBetween > distanceBetweenMax)
                     {
                         distanceBetweenMax = distanceBetween;
@@ -72,7 +73,8 @@ namespace LoggingKata
                     }
                 }
             }
-            logger.LogInfo("Max Distance Between Taco Bells is " + distanceBetweenMax.ToString() + " Occurring between " + locAMax.Name.Substring(0, locAMax.Name.IndexOf("(")) + " and " + locBMax.Name.Substring(0, locBMax.Name.IndexOf("(")));
+            var distanceBetweenMaxFormatted = String.Format("{0:0.# miles}",distanceBetweenMax);
+            logger.LogInfo("Max Distance Between Taco Bells is " + distanceBetweenMaxFormatted + ". Occurring between " + locAMax.Name.Substring(0, locAMax.Name.IndexOf("(")) + " and " + locBMax.Name.Substring(0, locBMax.Name.IndexOf("(")));
             Console.WriteLine(GeoLocationCodeTest.geoLocation());
             Console.WriteLine(GeoLocationCodeTest.geoCoordinatePortable());
         }
