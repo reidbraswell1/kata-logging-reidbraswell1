@@ -16,40 +16,33 @@ namespace LoggingKata
                 return null;
             }
             var cells = line.Split(Globals.splitChar);
-            if (cells.Length < 3)
+            if (cells.Length < Globals.minCells)
             {
                 logger.LogError(Globals.logMessageUnableToParseLine + Globals.logMessageLength + line, new Exception ("Line too short"));
                 return null;
             }
-            var longitude = 0.0;
-            var latitude = 0.0;
-            var name = "";
             try
             {
-                longitude = double.Parse(cells[0]);
-                latitude = double.Parse(cells[1]);
-                name = cells[2];
-                if (longitude > Globals.maxLongitude || longitude < Globals.minLongitude)
+                var longitude = double.Parse(cells[0]);
+                var latitude = double.Parse(cells[1]);
+                if (Math.Abs(longitude) > Point.maxLongitude)
                 {
                     throw new ArgumentOutOfRangeException(Globals.argumentExceptionLongitude);
                 }
-                if (latitude > Globals.maxLatitude || latitude < Globals.minLatitude)
+                if (Math.Abs(latitude) > Point.maxLatitude)
                 {
                     throw new ArgumentOutOfRangeException(Globals.argumentExceptionLatitude);
                 }
+                var name = (cells.Length > Globals.minCells) ? cells[2] : null;
+                var point = new Point { Latitude = latitude, Longitude = longitude };
+                var tacoBell = new TacoBell { Location = point, Name = name.Replace("\"","") };
+                return tacoBell;
             }
             catch (Exception e)
             {
                 logger.LogError(Globals.logMessageUnableToParseLine + e.Message + line,e);
                 return null;
             }
-            var tacoBell = new TacoBell();
-            var point = new Point();
-            point.Longitude = longitude;
-            point.Latitude = latitude;
-            tacoBell.Location = point;
-            tacoBell.Name = name.Replace("\"","");
-            return tacoBell;
         }
     }
 }
