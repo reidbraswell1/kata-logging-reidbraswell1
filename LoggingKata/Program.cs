@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using GeoCoordinatePortable;
 using Geolocation;
 using System.Linq;
@@ -74,8 +74,6 @@ namespace LoggingKata
             }
             var distanceBetweenMaxFormatted = String.Format("{0:0.# miles}",distanceBetweenMax);
             logger.LogInfo("Max Distance Between Taco Bells is " + distanceBetweenMaxFormatted + ". Occurring between " + locAMax.Name.Substring(0, locAMax.Name.IndexOf("(")) + " and " + locBMax.Name.Substring(0, locBMax.Name.IndexOf("(")));
-            Console.WriteLine(GeoLocationCodeTest.geoLocation());
-            Console.WriteLine(GeoLocationCodeTest.geoCoordinatePortable());
         }
     }
 }
