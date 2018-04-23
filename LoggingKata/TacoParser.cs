@@ -33,7 +33,7 @@ namespace LoggingKata
                 {
                     throw new ArgumentOutOfRangeException(Globals.argumentExceptionLatitude);
                 }
-                var name = (cells.Length > Globals.minCells) ? cells[2] : null;
+                var name = (cells.Length > Globals.minCells) ? cells[2] : "null";
                 var point = new Point { Latitude = latitude, Longitude = longitude };
                 var tacoBell = new TacoBell { Location = point, Name = name.Replace("\"","") };
                 return tacoBell;
