@@ -14,7 +14,7 @@ namespace LoggingKata
 
         static void Main(string[] args)
         {
-            logger.SetLogLevel(TacoLogger.info);
+            logger.SetLogLevel(LogLevel.Info);
             logger.LogInfo(Globals.logMessageInitialized);
             logger.LogInfo(Globals.logMessageReadingFileFrom + filePath);
             try
