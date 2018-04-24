@@ -8,5 +8,14 @@ namespace LoggingKata
         void LogWarning(string log);
         void LogInfo(string log);
         void LogDebug(string log);
+        void SetLogLevel(LogLevel level);
+    }
+    public enum LogLevel
+    {
+        Fatal,
+        Error,
+        Warn,
+        Info,
+        Debug
     }
 }
